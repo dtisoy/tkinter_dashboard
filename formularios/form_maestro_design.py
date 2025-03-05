@@ -15,10 +15,10 @@ class FormularioMaestroDesign(tk.Tk):
         # It's not possible to use tk.Buttons in my linux.
         self.style = ttk.Style()
         self.style.configure("lat.TButton", font=("roboto", 15),
-                foreground="white",
+                foreground="white", width=20,
                 border=0, relief=tk.FLAT, background=COLOR_MENU_LATERAL, anchor=tk.W)
 
-        self.style.configure("TButton", foreground="white", border=0, relief=tk.FLAT, background=COLOR_BARRA_SUPERIOR)
+        self.style.configure("TButton", width=5, foreground="white", border=0, relief=tk.FLAT, background=COLOR_BARRA_SUPERIOR)
         self.style.map("TButton",
                 foreground=[('active', "white")],
         background=[('active', COLOR_MENU_CURSOR_ENCIMA)])
@@ -51,16 +51,15 @@ class PanelSuperior(tk.Frame):
         self.controles()
 
     def controles(self):
+        # Button to toggle the side menu
+        self.botton_menu_lateral = ttk.Button(self,
+                text="\uf0c9", style="TButton", command=self.toggle_panel)
+        self.botton_menu_lateral.pack(side=tk.LEFT)
 
         # titulo
         label_titulo = tk.Label(self, text="dtisoy")
         label_titulo.config(fg="#fff", font=("roboto", 15), bg=COLOR_BARRA_SUPERIOR, padx=10)
         label_titulo.pack(side=tk.LEFT)
-
-        # Button to toggle the side menu
-        self.botton_menu_lateral = ttk.Button(self,
-                text="\uf0c9", style="TButton", command=self.toggle_panel)
-        self.botton_menu_lateral.pack(side=tk.LEFT)
 
     def toggle_panel(self):
         if self.master.menu_lateral.winfo_ismapped():
@@ -98,12 +97,10 @@ class PanelLateral(tk.Frame):
 class BotonMenuLateral(ttk.Button):
     """Menu options configuration """
     def __init__(self, master, titulo, icono):
-        super().__init__(master)
+        super().__init__(master, style="lat.TButton")
         self.titulo = titulo
         self.icono = icono
         self["text"] = f"   {self.icono}       {self.titulo}"
-        self["width"] = 20
-        self["style"] = "lat.TButton"
 
 
         self.pack(side=tk.TOP)
