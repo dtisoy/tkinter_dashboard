@@ -6,6 +6,7 @@ import util.util_imagenes as util_img
 class FormularioMaestroDesign(tk.Tk):
     def __init__(self):
         super().__init__()
+        # app root
         self.logo = util_img.leer_imagen("./imagenes/logo.png", (560, 136))
         self.perfil = util_img.leer_imagen("./imagenes/Perfil.png", (100, 100))
         self.config_window()
@@ -22,7 +23,7 @@ class FormularioMaestroDesign(tk.Tk):
                 foreground=[('active', "white")],
         background=[('active', COLOR_MENU_CURSOR_ENCIMA)])
 
-
+        # show the three main frames
         self.paneles()
 
 
@@ -33,7 +34,6 @@ class FormularioMaestroDesign(tk.Tk):
 
     def paneles(self):
         # crea paneles: barra superior, menú lateral, cuerpo principal
-        # self.barra_superior = tk.Frame(self, bg=COLOR_BARRA_SUPERIOR, height=50)
         self.panel_superior = PanelSuperior(self)
 
         self.menu_lateral = PanelLateral(self)
@@ -42,24 +42,22 @@ class FormularioMaestroDesign(tk.Tk):
 
 
 class PanelSuperior(tk.Frame):
+    """this is something like the navbar"""
     def __init__(self, master):
         super().__init__(master, bg=COLOR_BARRA_SUPERIOR, height=50)
         self.pack(side=tk.TOP, fill="both")
 
-
+        # show buttons and text
         self.controles()
 
     def controles(self):
 
-        font_awesome = font.Font(family="FontAwesome", size=12
-        )
         # titulo
         label_titulo = tk.Label(self, text="dtisoy")
         label_titulo.config(fg="#fff", font=("roboto", 15), bg=COLOR_BARRA_SUPERIOR, padx=10)
         label_titulo.pack(side=tk.LEFT)
 
-        # Botón del menú lateral
-
+        # Button to toggle the side menu
         self.botton_menu_lateral = ttk.Button(self,
                 text="\uf0c9", style="TButton", command=self.toggle_panel)
         self.botton_menu_lateral.pack(side=tk.LEFT)
@@ -72,26 +70,25 @@ class PanelSuperior(tk.Frame):
 
 
 class PanelLateral(tk.Frame):
+    """Side frame with the menu"""
     def __init__(self, master):
         super().__init__(master, bg=COLOR_MENU_LATERAL)
         self.master = master
-        self.font_awesome = font.Font(family="FontAwesome", size=15)
 
         self.pack(side=tk.LEFT, fill="both", expand=False)
 
-        # lateral button styles
-
+        # lateral buttons and profile picture
         self.controles()
 
     def controles(self):
 
-        # Etiqueta de perfil
+        # profile picture
         labelPerfil= tk.Label(
                 self, image=self.master.perfil, bg=COLOR_MENU_LATERAL)
 
         labelPerfil.pack(side=tk.TOP, pady=10, padx=10)
 
-        # Botones
+        # Menu options
         botonDashboard = BotonMenuLateral(self, "Dashboard", "\uf109")
         botonProfile = BotonMenuLateral(self, "Profile", "\uf0c0")
         botonPicture = BotonMenuLateral(self, "Picture", "\uf03e")
@@ -99,6 +96,7 @@ class PanelLateral(tk.Frame):
         botonSettings = BotonMenuLateral(self, "Settings", "\uf1de")
 
 class BotonMenuLateral(ttk.Button):
+    """Menu options configuration """
     def __init__(self, master, titulo, icono):
         super().__init__(master)
         self.titulo = titulo
@@ -111,6 +109,7 @@ class BotonMenuLateral(ttk.Button):
         self.pack(side=tk.TOP)
 
 class PanelPrincipal(tk.Frame):
+    """Main Frame"""
     def __init__(self, master):
         super().__init__(master, bg=COLOR_CUERPO_PRINCIPAL)
 
