@@ -4,6 +4,7 @@ from config import *
 import util.util_imagenes as util_img
 
 class FormularioMaestroDesign(tk.Tk):
+    """app root"""
     def __init__(self):
         super().__init__()
         # app root
@@ -14,14 +15,19 @@ class FormularioMaestroDesign(tk.Tk):
         # button styles
         # It's not possible to use tk.Buttons in my linux.
         self.style = ttk.Style()
+
         self.style.configure("lat.TButton", font=("roboto", 15),
                 foreground="white", width=20,
                 border=0, relief=tk.FLAT, background=COLOR_MENU_LATERAL, anchor=tk.W)
 
-        self.style.configure("TButton", width=5, foreground="white", border=0, relief=tk.FLAT, background=COLOR_BARRA_SUPERIOR)
+        self.style.configure("TButton", font=("roboto", 15),
+                width=5,
+                foreground="white", border=0, relief=tk.FLAT,
+                background=COLOR_BARRA_SUPERIOR)
+
         self.style.map("TButton",
                 foreground=[('active', "white")],
-        background=[('active', COLOR_MENU_CURSOR_ENCIMA)])
+                background=[('active', COLOR_MENU_CURSOR_ENCIMA)])
 
         # show the three main frames
         self.paneles()
@@ -94,7 +100,9 @@ class PanelLateral(tk.Frame):
         botonInfo = BotonMenuLateral(self, "Info", "\uf129")
         botonSettings = BotonMenuLateral(self, "Settings", "\uf1de")
 
+# pylint: disable=too-many-ancestors
 class BotonMenuLateral(ttk.Button):
+
     """Menu options configuration """
     def __init__(self, master, titulo, icono):
         super().__init__(master, style="lat.TButton")
