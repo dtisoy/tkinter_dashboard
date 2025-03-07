@@ -2,6 +2,9 @@ import tkinter as tk
 from tkinter import font, ttk
 from config import *
 import util.util_imagenes as util_img
+from formularios.form_info_design import FormularioInfoDesign
+from formularios.form_sitio_construccion import FormularioSitioConstruccionDesign
+from formularios.form_graficas_design import FormularioGraficaDesign
 
 class FormularioMaestroDesign(tk.Tk):
     """app root"""
@@ -10,6 +13,7 @@ class FormularioMaestroDesign(tk.Tk):
         # app root
         self.logo = util_img.leer_imagen("./imagenes/logo.png", (560, 136))
         self.perfil = util_img.leer_imagen("./imagenes/Perfil.png", (100, 100))
+        self.img_construccion = util_img.leer_imagen("./imagenes/sitio_construccion.png", (100, 100))
         self.config_window()
 
         # button styles
@@ -94,21 +98,36 @@ class PanelLateral(tk.Frame):
         labelPerfil.pack(side=tk.TOP, pady=10, padx=10)
 
         # Menu options
-        botonDashboard = BotonMenuLateral(self, "Dashboard", "\uf109")
+        botonDashboard = BotonMenuLateral(self, "Dashboard", "\uf109", command=self.abrir_panel_graficas)
         botonProfile = BotonMenuLateral(self, "Profile", "\uf0c0")
         botonPicture = BotonMenuLateral(self, "Picture", "\uf03e")
-        botonInfo = BotonMenuLateral(self, "Info", "\uf129")
+        botonInfo = BotonMenuLateral(self, "Info", "\uf129", command=self.abrir_panel_info)
         botonSettings = BotonMenuLateral(self, "Settings", "\uf1de")
+
+    def abrir_panel_info(self):
+        self.master.panel_principal.limpiar()
+        FormularioInfoDesign()
+
+    def abrir_sitio_en_construccion(self):
+        self.master.panel_principal.limpiar()
+        FormularioSitioConstruccionDesign(self.master.panel_principal, self.master.img_construccion)
+
+    def abrir_panel_graficas(self):
+        self.master.panel_principal.limpiar()
+        FormularioGraficaDesign(self.master.panel_principal)
 
 # pylint: disable=too-many-ancestors
 class BotonMenuLateral(ttk.Button):
 
     """Menu options configuration """
-    def __init__(self, master, titulo, icono):
+    def __init__(self, master, titulo, icono, command=None):
         super().__init__(master, style="lat.TButton")
         self.titulo = titulo
         self.icono = icono
         self["text"] = f"   {self.icono}       {self.titulo}"
+        if not command:
+            self["command"] = master.abrir_sitio_en_construccion
+        self["command"] = command
 
 
         self.pack(side=tk.TOP)
@@ -121,3 +140,7 @@ class PanelPrincipal(tk.Frame):
         self.pack(side=tk.RIGHT, fill="both", expand=True)
         self.logo = tk.Label(self, image=self.master.logo, bg=COLOR_CUERPO_PRINCIPAL)
         self.logo.place(x=0, y=0, relwidth=1, relheight=1)
+
+    def limpiar(self):
+        for widget in self.winfo_children():
+            widget.destroy()
